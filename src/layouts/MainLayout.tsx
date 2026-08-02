@@ -1,24 +1,24 @@
-  import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
-  import Navbar from "../components/Navbar/Navbar";
-  import Footer from "../components/Footer/Footer";
+import Navbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/Footer";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
-  import BackToTop from "../components/BackToTop/BackToTop";
+import BackToTop from "../components/BackToTop/BackToTop";
 
-  export default function MainLayout() {
-    return (
-      <div className="min-h-screen bg-[#080D18]">
-        <ScrollToTop />
+export default function MainLayout() {
+  return (
+    <div className="min-h-screen bg-[#080D18]">
+      <ScrollToTop />
 
-        <Navbar />
+      <Navbar />
 
-        <main>
-          <Outlet />
-        </main>
+      <main>
+        <Outlet />
+      </main>
 
-        <Footer />
+      <Footer />
 
-        <BackToTop />
-      </div>
-    );
-  }
+      <BackToTop />
+    </div>
+  );
+}
