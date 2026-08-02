@@ -12,13 +12,9 @@ import {
   BatteryCharging,
   Zap,
   Home,
-  Building2,
   CheckCircle2,
-  Wifi,
   Users,
-  Volume2,
   Network,
-  LampDesk,
   Moon,
 } from "lucide-react";
 

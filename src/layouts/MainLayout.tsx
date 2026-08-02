@@ -2,7 +2,7 @@
 
   import Navbar from "../components/Navbar/Navbar";
   import Footer from "../components/Footer/Footer";
-  import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
+import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
   import BackToTop from "../components/BackToTop/BackToTop";
 
   export default function MainLayout() {
