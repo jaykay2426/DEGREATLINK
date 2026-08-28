@@ -284,7 +284,7 @@ export default function Footer() {
               {/* PHONE */}
 
               <a
-                href="tel:+2348000000000"
+                href="tel:+234 703 846 0648"
                 className="group flex items-start gap-3"
               >
 
@@ -298,7 +298,7 @@ export default function Footer() {
                   </p>
 
                   <p className="mt-1 text-sm text-slate-300 transition-colors group-hover:text-orange-500">
-                    +234 800 000 0000
+                    +234 703 846 0648
                   </p>
                 </div>
 
@@ -307,7 +307,7 @@ export default function Footer() {
               {/* EMAIL */}
 
               <a
-                href="mailto:info@degreatlink.com"
+                href="mailto:johnogunnusi2019@gmail.com"
                 className="group flex items-start gap-3"
               >
 
@@ -321,7 +321,7 @@ export default function Footer() {
                   </p>
 
                   <p className="mt-1 break-all text-sm text-slate-300 transition-colors group-hover:text-orange-500">
-                    info@degreatlink.com
+                    johnogunnusi2019@gmail.com
                   </p>
                 </div>
 

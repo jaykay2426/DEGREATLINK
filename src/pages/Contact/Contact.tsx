@@ -69,19 +69,19 @@ const contactInfo = [
   {
     icon: Phone,
     title: "Call Degreatlink",
-    value: "+234 800 000 0000",
+    value: "+234 802 751 6223",
     description: "Speak directly with our team.",
   },
   {
     icon: MessageCircle,
     title: "WhatsApp",
-    value: "+234 800 000 0000",
+    value: "+234 703 846 0648",
     description: "Quick questions and consultations.",
   },
   {
     icon: Mail,
     title: "Email",
-    value: "info@degreatlink.com",
+    value: "johnogunnusi2019@gmail.com",
     description: "For detailed enquiries and documents.",
   },
   {
@@ -365,7 +365,7 @@ export default function Contact() {
 
                       <input
                         type="tel"
-                        placeholder="+234 800 000 0000"
+                        placeholder="+234 703 846 0648"
                         className="w-full rounded-xl border border-white/10 bg-black/20 px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-orange-500"
                       />
                     </div>
@@ -379,7 +379,7 @@ export default function Contact() {
 
                     <input
                       type="email"
-                      placeholder="you@example.com"
+                      placeholder="johnogunnusi2019@gmail.com"
                       className="w-full rounded-xl border border-white/10 bg-black/20 px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-orange-500"
                     />
                   </div>
@@ -651,7 +651,7 @@ export default function Contact() {
             <div className="mt-8 flex flex-wrap justify-center gap-4">
 
               <a
-                href="tel:+2348000000000"
+                href="tel:+234 703 846 0648"
                 className="inline-flex items-center gap-2 rounded-full bg-orange-500 px-7 py-4 font-bold transition hover:bg-orange-600"
               >
                 <Phone size={18} />
@@ -659,7 +659,7 @@ export default function Contact() {
               </a>
 
               <a
-                href="mailto:info@degreatlink.com"
+                href="mailto:johnogunnusi2019@gmail.com"
                 className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-7 py-4 font-bold transition hover:border-orange-500/40 hover:bg-white/[0.07]"
               >
                 Email Us

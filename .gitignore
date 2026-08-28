@@ -12,6 +12,16 @@ dist
 dist-ssr
 *.local
 
+# Environment variables — never commit secrets
+.env
+.env.*
+!.env.example
+
+# Prisma generated client
+src/generated/prisma
+prisma/*.db
+prisma/*.db-journal
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
