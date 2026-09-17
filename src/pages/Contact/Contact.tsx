@@ -1,4 +1,6 @@
+import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
+import { sendDegreatlinkEnquiry } from "../../lib/emailjs";
 import {
   ArrowUpRight,
   CalendarDays,
@@ -93,6 +95,87 @@ const contactInfo = [
 ];
 
 export default function Contact() {
+  const [isSending, setIsSending] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    setIsSending(true);
+    setSuccessMessage("");
+    setErrorMessage("");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const name = String(formData.get("name") || "").trim();
+    const phone = String(formData.get("phone") || "").trim();
+    const email = String(formData.get("email") || "").trim();
+    const enquiryType = String(
+      formData.get("enquiry_type") || "",
+    ).trim();
+    const service = String(formData.get("service") || "").trim();
+    const propertyType = String(
+      formData.get("property_type") || "",
+    ).trim();
+    const location = String(formData.get("location") || "").trim();
+    const budget = String(formData.get("budget") || "").trim();
+    const message = String(formData.get("message") || "").trim();
+    const contactMethod = String(
+      formData.get("contact_method") || "",
+    ).trim();
+    const preferredDate = String(
+      formData.get("preferred_date") || "",
+    ).trim();
+
+    if (
+      !name ||
+      !phone ||
+      !email ||
+      !enquiryType ||
+      !service ||
+      !propertyType ||
+      !message
+    ) {
+      setErrorMessage(
+        "Please complete all required fields before sending your enquiry.",
+      );
+      setIsSending(false);
+      return;
+    }
+
+    try {
+      await sendDegreatlinkEnquiry({
+        name,
+        phone,
+        email,
+        enquiry_type: enquiryType,
+        service,
+        property_type: propertyType,
+        location,
+        budget,
+        contact_method: contactMethod,
+        preferred_date: preferredDate,
+        message,
+      });
+
+      setSuccessMessage(
+        "Thank you! Your enquiry has been sent successfully. Our team will contact you shortly.",
+      );
+
+      form.reset();
+    } catch (error) {
+      console.error("Contact form submission error:", error);
+
+      setErrorMessage(
+        "We couldn't send your enquiry right now. Please try again or contact us directly.",
+      );
+    } finally {
+      setIsSending(false);
+    }
+  }
+
   return (
     <main className="min-h-screen overflow-hidden bg-[#080D18] text-white">
 
@@ -335,7 +418,10 @@ export default function Contact() {
                 </div>
               </div>
 
-              <form className="p-7 md:p-9">
+              <form
+  onSubmit={handleSubmit}
+  className="p-7 md:p-9"
+>
 
                 {/* Basic information */}
 
@@ -352,10 +438,12 @@ export default function Contact() {
                       </label>
 
                       <input
-                        type="text"
-                        placeholder="John Doe"
-                        className="w-full rounded-xl border border-white/10 bg-black/20 px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-orange-500"
-                      />
+  type="text"
+  name="name"
+  required
+  placeholder="John Doe"
+  className="w-full rounded-xl border border-white/10 bg-black/20 px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-orange-500"
+/>
                     </div>
 
                     <div>
@@ -364,10 +452,12 @@ export default function Contact() {
                       </label>
 
                       <input
-                        type="tel"
-                        placeholder="+234 703 846 0648"
-                        className="w-full rounded-xl border border-white/10 bg-black/20 px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-orange-500"
-                      />
+  type="tel"
+  name="phone"
+  required
+  placeholder="+234 703 846 0648"
+  className="w-full rounded-xl border border-white/10 bg-black/20 px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-orange-500"
+/>
                     </div>
 
                   </div>
@@ -378,10 +468,12 @@ export default function Contact() {
                     </label>
 
                     <input
-                      type="email"
-                      placeholder="johnogunnusi2019@gmail.com"
-                      className="w-full rounded-xl border border-white/10 bg-black/20 px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-orange-500"
-                    />
+  type="email"
+  name="email"
+  required
+  placeholder="johnogunnusi2019@gmail.com"
+  className="w-full rounded-xl border border-white/10 bg-black/20 px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-orange-500"
+/>
                   </div>
                 </div>
 
@@ -400,9 +492,11 @@ export default function Contact() {
                       </label>
 
                       <select
-                        defaultValue=""
-                        className="w-full rounded-xl border border-white/10 bg-[#101827] px-5 py-4 text-sm text-slate-300 outline-none transition focus:border-orange-500"
-                      >
+  name="enquiry_type"
+  required
+  defaultValue=""
+  className="w-full rounded-xl border border-white/10 bg-[#101827] px-5 py-4 text-sm text-slate-300 outline-none transition focus:border-orange-500"
+>
                         <option value="" disabled>
                           Select enquiry type
                         </option>
@@ -419,9 +513,11 @@ export default function Contact() {
                       </label>
 
                       <select
-                        defaultValue=""
-                        className="w-full rounded-xl border border-white/10 bg-[#101827] px-5 py-4 text-sm text-slate-300 outline-none transition focus:border-orange-500"
-                      >
+  name="service"
+  required
+  defaultValue=""
+  className="w-full rounded-xl border border-white/10 bg-[#101827] px-5 py-4 text-sm text-slate-300 outline-none transition focus:border-orange-500"
+>
                         <option value="" disabled>
                           Select a service
                         </option>
@@ -442,9 +538,11 @@ export default function Contact() {
                     </label>
 
                     <select
-                      defaultValue=""
-                      className="w-full rounded-xl border border-white/10 bg-[#101827] px-5 py-4 text-sm text-slate-300 outline-none transition focus:border-orange-500"
-                    >
+  name="property_type"
+  required
+  defaultValue=""
+  className="w-full rounded-xl border border-white/10 bg-[#101827] px-5 py-4 text-sm text-slate-300 outline-none transition focus:border-orange-500"
+>
                       <option value="" disabled>
                         What type of property is this?
                       </option>
@@ -471,10 +569,11 @@ export default function Contact() {
                       </label>
 
                       <input
-                        type="text"
-                        placeholder="e.g. Lekki, Lagos"
-                        className="w-full rounded-xl border border-white/10 bg-black/20 px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-orange-500"
-                      />
+  type="text"
+  name="location"
+  placeholder="e.g. Lekki, Lagos"
+  className="w-full rounded-xl border border-white/10 bg-black/20 px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-orange-500"
+/>
                     </div>
 
                     <div>
@@ -483,9 +582,10 @@ export default function Contact() {
                       </label>
 
                       <select
-                        defaultValue=""
-                        className="w-full rounded-xl border border-white/10 bg-[#101827] px-5 py-4 text-sm text-slate-300 outline-none transition focus:border-orange-500"
-                      >
+  name="budget"
+  defaultValue=""
+  className="w-full rounded-xl border border-white/10 bg-[#101827] px-5 py-4 text-sm text-slate-300 outline-none transition focus:border-orange-500"
+>
                         <option value="" disabled>
                           Select budget range
                         </option>
@@ -504,10 +604,12 @@ export default function Contact() {
                     </label>
 
                     <textarea
-                      rows={7}
-                      placeholder="Tell us about the property, what you need installed, the problem you're trying to solve, the number of rooms/cameras, power requirements, approximate project size, or anything else that may help..."
-                      className="w-full resize-none rounded-xl border border-white/10 bg-black/20 px-5 py-4 text-sm leading-7 text-white outline-none transition placeholder:text-slate-600 focus:border-orange-500"
-                    />
+  name="message"
+  required
+  rows={7}
+  placeholder="Tell us about the property, what you need installed, the problem you're trying to solve, the number of rooms/cameras, power requirements, approximate project size, or anything else that may help..."
+  className="w-full resize-none rounded-xl border border-white/10 bg-black/20 px-5 py-4 text-sm leading-7 text-white outline-none transition placeholder:text-slate-600 focus:border-orange-500"
+/>
                   </div>
                 </div>
 
@@ -526,7 +628,8 @@ export default function Contact() {
                       </label>
 
                       <select
-                        defaultValue=""
+  name="contact_method"
+  defaultValue=""
                         className="w-full rounded-xl border border-white/10 bg-[#101827] px-5 py-4 text-sm text-slate-300 outline-none transition focus:border-orange-500"
                       >
                         <option value="" disabled>
@@ -546,7 +649,8 @@ export default function Contact() {
                       </label>
 
                       <input
-                        type="date"
+  type="date"
+  name="preferred_date"
                         className="w-full rounded-xl border border-white/10 bg-black/20 px-5 py-4 text-sm text-slate-400 outline-none transition focus:border-orange-500"
                       />
                     </div>
@@ -590,29 +694,46 @@ export default function Contact() {
 
                 {/* Submit */}
 
-                <div className="mt-10 border-t border-white/10 pt-8">
+                {/* Submit */}
 
-                  <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+<div className="mt-10 border-t border-white/10 pt-8">
 
-                    <p className="max-w-md text-xs leading-6 text-slate-600">
-                      By submitting this form, you are requesting that
-                      Degreatlink contact you regarding your enquiry.
-                    </p>
+  {successMessage && (
+    <div className="mb-6 rounded-2xl border border-green-500/20 bg-green-500/10 px-5 py-4 text-sm leading-6 text-green-400">
+      {successMessage}
+    </div>
+  )}
 
-                    <button
-                      type="submit"
-                      className="group inline-flex items-center justify-center gap-3 rounded-full bg-orange-500 px-8 py-4 font-bold text-white transition-all duration-300 hover:bg-orange-600 hover:shadow-[0_0_35px_rgba(249,115,22,0.2)]"
-                    >
-                      Send Enquiry
+  {errorMessage && (
+    <div className="mb-6 rounded-2xl border border-red-500/20 bg-red-500/10 px-5 py-4 text-sm leading-6 text-red-400">
+      {errorMessage}
+    </div>
+  )}
 
-                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:rotate-45">
-                        <Send size={15} />
-                      </span>
-                    </button>
+  <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
 
-                  </div>
+    <p className="max-w-md text-xs leading-6 text-slate-600">
+      By submitting this form, you are requesting that
+      Degreatlink contact you regarding your enquiry.
+    </p>
 
-                </div>
+    <button
+      type="submit"
+      disabled={isSending}
+      className="group inline-flex items-center justify-center gap-3 rounded-full bg-orange-500 px-8 py-4 font-bold text-white transition-all duration-300 hover:bg-orange-600 hover:shadow-[0_0_35px_rgba(249,115,22,0.2)] disabled:cursor-not-allowed disabled:opacity-60"
+    >
+      {isSending ? "Sending Enquiry..." : "Send Enquiry"}
+
+      {!isSending && (
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:rotate-45">
+          <Send size={15} />
+        </span>
+      )}
+    </button>
+
+  </div>
+
+</div>
 
               </form>
             </motion.div>
